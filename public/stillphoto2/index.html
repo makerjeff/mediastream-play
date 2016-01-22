@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stillPhoto2</title>
+
+    <!-- JS -->
+    <script src="./lib/tracking.js"></script>
+
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- CAMERA SECTION -->
+<div class="camera">
+    <video id="video"> (fallback message) </video>
+    <button id="snapButton"> Take photo </button>
+</div>
+
+<!-- CANVAS (not visible) -->
+<canvas id="canvas"></canvas>
+
+<!-- OUTPUT -->
+<div class="output">
+    <img id="photo" alt="Screen cap goes here">
+</div>
+
+<!-- FOOTER -->
+<p>
+    Footer information goes here.
+</p>
+
+<!-- CODE -->
+<script>
+    // sizes
+    var width = 640;
+    var height = 0;
+
+    // flags
+    var streaming = false;
+
+    // declare variables
+    var video = null;
+    var canvas = null;
+    var photo = null;
+    var snapButton = null;
+
+    // main loop
+    document.addEventListener('DOMContentLoaded', function(event){
+
+    });
+
+    // ==== FUNCTIONS ====
+    function startup() {
+        // handles
+        video = document.getElementById('video');
+        canvas = document.getElementById('canvas');
+        photo = document.getElementById('photo');
+        snapButton = document.getElementById('snapButton');
+
+        //grab and wrap proper getUserMedia
+        navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
+
+        //ask for video permission
+        navigator.getMedia({video:true, audio:false}, function(stream) {
+
+            //for MOZILLA
+            if(navigator.mozGetUserMedia) {
+                video.mozSrcObject = stream;
+            }
+            //for WEBKIT etc
+            else {
+                var vendorURL = window.URL || window.webkitURL;
+
+                //create an URL object
+                video.src = vendorURL.createObjectURL(stream);
+            }
+
+            //play the video
+            video.play();
+
+        }, function(error){
+            console.log('An error occured: ' + error);
+        });
+
+        // check to see if the video can play?
+        video.addEventListener('canplay', function(event){
+            if(!streaming) {
+                //TODO continue here
+            }
+        });
+
+
+    }
+
+
+
+
+</script>
+</body>
+</html>
