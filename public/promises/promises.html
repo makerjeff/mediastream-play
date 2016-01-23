@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>promisePlay</title>
+
+    <!--CONSTRUCTOR SCRIPTS-->
+    <script src="./js/myPromise.js"></script>
+</head>
+
+<body>
+<button id="button">pull stuff</button>
+<div id="results"></div>
+
+    <script>
+        var promise = new myPromise();
+
+        promise.then(function(result){
+            console.log(result);
+        }).catch(function(error2) {
+            console.log('error caught by catch: ' + error2);
+        });
+
+
+        //event listeners
+        var button = document.getElementById('button');
+
+        button.addEventListener('click', function(event){
+
+            // testing getData
+            getData('models/data.json').then(function(response){
+
+                console.log('getData Success!');
+                var parsedData = JSON.parse(response);
+
+                //logging all elements
+                for(i = 0; i < parsedData.length; i++) {
+                    console.log(parsedData[i].name + ', ' + parsedData[i].title);
+                }
+
+            }).catch(function(error){
+                console.log(Error('Failed!', error));
+            });
+        });
+
+
+
+
+
+    </script>
+
+</body>
+</html>
