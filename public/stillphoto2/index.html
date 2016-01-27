@@ -4,103 +4,160 @@
     <meta charset="UTF-8">
     <title>stillPhoto2</title>
 
-    <!-- JS -->
-    <script src="./lib/tracking.js"></script>
+    <!-- JS LIBRARIES -->
 
     <style>
-        * {
-            padding: 0px;
-            margin: 0px;
+
+        @media screen {
+            * {
+                padding: 0px;
+                margin: 0px;
+
+                font-size: 16px;
+            }
+
+            .output {
+                display: flex;
+                position: relative;
+                width: 426.66px;
+                height: 240px;
+
+                border: 1px solid black;
+            }
+
+
+
+            #container {
+                display: flex;
+                background: rgb(104, 172, 240);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #camera_module {
+                display: flex;
+
+                margin-top: 25px;
+
+                justify-content: center;
+                align-items: center;
+
+                width: 1280px;
+                height: 720px;
+
+                border: 1px solid black;
+            }
+
+            #output_container {
+                display: flex;
+                flex-direction: row;
+
+                margin: 50px 0 0 0;
+            }
+
+            #photo {
+                position: relative;
+                width: 1280px;
+                height: 720px;
+            }
+
+            #startbutton {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                background: rgba(255,255,255, 1.0);
+
+                width: 200px;
+                height: 200px;
+
+                border-radius: 50%;
+
+                font-size: 1.5em;
+
+                outline: none;
+            }
+
+            #startbutton:active {
+                background: rgba(0,255,0,1.0);
+            }
+
+            #photo_01 {
+                border-right: none;
+            }
+
+            #photo_02 {
+
+            }
+
+            #photo_03 {
+                border-left: none;
+            }
+
         }
+
+        @media print {
+
+            #camera_module {
+                position: fixed;
+                width: 0px;
+                height: 0px;
+
+                top: 0px;
+                left: 0px;
+            }
+
+            #canvas {
+
+            }
+        }
+
+
+
     </style>
 </head>
 <body>
 
-<!-- CAMERA SECTION -->
-<div class="camera">
-    <video id="video"> (fallback message) </video>
-    <button id="snapButton"> Take photo </button>
-</div>
+<!-- MAIN CONTAINER -->
+<div id="container">
+    <!--camera module-->
+    <div id="camera_module">
+        <video id="video">Video Stream Not Available</video>
+        <button id="startbutton">start camera</button>
+    </div>
 
-<!-- CANVAS (not visible) -->
-<canvas id="canvas"></canvas>
+    <!--output screens-->
+    <div id="output_container">
+        <div class="output" id="photo_01"></div>
+        <div class="output" id="photo_02"></div>
+        <div class="output" id="photo_03"></div>
+    </div>
 
-<!-- OUTPUT -->
-<div class="output">
-    <img id="photo" alt="Screen cap goes here">
-</div>
 
-<!-- FOOTER -->
-<p>
-    Footer information goes here.
-</p>
+    <!--invisible canvas-->
+    <canvas id="canvas"></canvas>
+
+
+
+
+
+</div> <!-- MAIN CONTAINER - END -->
+
 
 <!-- CODE -->
 <script>
-    // sizes
-    var width = 640;
-    var height = 0;
+    //global variables
+    var button = document.getElementById('startbutton');
 
-    // flags
-    var streaming = false;
+    //event listeners
+    button.addEventListener('click', function(event){
 
-    // declare variables
-    var video = null;
-    var canvas = null;
-    var photo = null;
-    var snapButton = null;
-
-    // main loop
-    document.addEventListener('DOMContentLoaded', function(event){
-
+        this.parentNode.removeChild(this);
     });
 
-    // ==== FUNCTIONS ====
-    function startup() {
-        // handles
-        video = document.getElementById('video');
-        canvas = document.getElementById('canvas');
-        photo = document.getElementById('photo');
-        snapButton = document.getElementById('snapButton');
-
-        //grab and wrap proper getUserMedia
-        navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
-
-        //ask for video permission
-        navigator.getMedia({video:true, audio:false}, function(stream) {
-
-            //for MOZILLA
-            if(navigator.mozGetUserMedia) {
-                video.mozSrcObject = stream;
-            }
-            //for WEBKIT etc
-            else {
-                var vendorURL = window.URL || window.webkitURL;
-
-                //create an URL object
-                video.src = vendorURL.createObjectURL(stream);
-            }
-
-            //play the video
-            video.play();
-
-        }, function(error){
-            console.log('An error occured: ' + error);
-        });
-
-        // check to see if the video can play?
-        video.addEventListener('canplay', function(event){
-            if(!streaming) {
-                //TODO continue here
-            }
-        });
-
-
-    }
-
-
-
-
 </script>
+
 </body>
 </html>
