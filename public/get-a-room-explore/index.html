@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>stillPhoto2</title>
+    <title>get a room</title>
     <link rel="shortcut icon" href="favicon.ico?v=2">
 
     <!-- JS LIBRARIES -->
+    <script src="./lib/tracking.js"></script>
 
     <style>
 
@@ -76,6 +77,8 @@
 
             #photo_01 {
                 border-right: none;
+                width:1280px;
+                height: 720px;
             }
 
             #photo_02 {
@@ -90,22 +93,6 @@
                 position: fixed;
                 width: 0px;
                 height: 0px;
-            }
-
-
-            #print_logo {
-                position: fixed;
-                background: url('./img/HP_New_Logo_2D.png');
-                background-size: 200px 200px;
-                background-repeat: no-repeat;
-
-                width: 200px;
-                height: 200px;
-
-                top: 20px;
-                left: 20px;
-
-                z-index: 5;
             }
 
         }
@@ -150,27 +137,21 @@
 <div id="container">
     <!--camera module-->
     <div id="camera_module">
-        <video id="video">Video Stream Not Available</video>
+        <video id="video" preload autoplay loop muted>Video Stream Not Available</video>
         <button id="startbutton">start camera</button>
     </div>
 
     <!--output screens-->
     <div id="output_container">
-        <div class="output" id="photo_01"></div>
+        <div class="output" id="photo_01">
+            <video id="tiny_video" preload autoplay loop muted> git ray day!</video>
+        </div>
         <div class="output" id="photo_02"></div>
         <div class="output" id="photo_03"></div>
     </div>
 
-
     <!--invisible canvas-->
     <canvas id="canvas"></canvas>
-
-    <!--PRINT-visible logo-->
-    <div id="print_logo"></div>
-
-
-
-
 
 </div> <!-- MAIN CONTAINER - END -->
 
@@ -180,8 +161,10 @@
     //global variables
     var button = document.getElementById('startbutton');
 
+
     //event listeners
     button.addEventListener('click', function(event){
+        initializeCamera();
         this.parentNode.removeChild(this);
     });
 
@@ -210,6 +193,46 @@
     function adjustContainerHeight(){
         var backgroundContainer = document.getElementById('container');
         backgroundContainer.style.height = window.innerHeight.toString() + 'px';
+    }
+
+    //init camera
+    function initializeCamera() {
+        var width = 1280;
+        var height = 0;
+
+        var streaming = false;
+        var video = null;
+        var tiny_video = null;
+        var canvas = null;
+        var photo = null;
+        var startbutton = null;
+
+        video = document.getElementById('video');
+        tiny_video = document.getElementById('tiny_video');
+        canvas = document.getElementById('canvas');
+        photo = document.getElementById('photo_01');
+        startbutton = document.getElementById('startbutton');
+
+        //get media stream
+        navigator.getMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia );
+
+        navigator.getMedia({video: true, audio: false}, function(stream){
+            if(navigator.mozGetUserMedia) {
+                video.mozSrcObject = stream;
+                tiny_video.mozSrcObject = stream;
+            } else {
+                var vendorURL = window.URL || window.webkitURL;
+                video.src = vendorURL.createObjectURL(stream);
+
+                tiny_video.src = window.URL.createObjectURL(stream);
+            }
+
+            video.play();
+            tiny_video.play();
+
+        }, function(error){
+            console.log('an error occured' + error );
+        });
     }
 
 </script>
