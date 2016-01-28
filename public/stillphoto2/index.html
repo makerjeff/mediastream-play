@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>stillPhoto2</title>
+    <link rel="shortcut icon" href="favicon.ico?v=2">
 
     <!-- JS LIBRARIES -->
 
     <style>
 
+        /* ===== SCREEN STYLES ===== */
         @media screen {
             * {
                 padding: 0px;
                 margin: 0px;
-
                 font-size: 16px;
             }
 
@@ -21,15 +22,12 @@
                 position: relative;
                 width: 426.66px;
                 height: 240px;
-
                 border: 1px solid black;
             }
 
-
-
             #container {
                 display: flex;
-                background: rgb(104, 172, 240);
+                background: rgb(230, 240, 240);
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
@@ -37,22 +35,19 @@
 
             #camera_module {
                 display: flex;
-
                 margin-top: 25px;
-
                 justify-content: center;
                 align-items: center;
-
                 width: 1280px;
                 height: 720px;
-
                 border: 1px solid black;
+
+                min-height: 720px;
             }
 
             #output_container {
                 display: flex;
                 flex-direction: row;
-
                 margin: 50px 0 0 0;
             }
 
@@ -67,16 +62,11 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-
                 background: rgba(255,255,255, 1.0);
-
                 width: 200px;
                 height: 200px;
-
                 border-radius: 50%;
-
                 font-size: 1.5em;
-
                 outline: none;
             }
 
@@ -96,9 +86,35 @@
                 border-left: none;
             }
 
-        }
+            #canvas {
+                position: fixed;
+                width: 0px;
+                height: 0px;
+            }
 
+
+            #print_logo {
+                position: fixed;
+                background: url('./img/HP_New_Logo_2D.png');
+                background-size: 200px 200px;
+                background-repeat: no-repeat;
+
+                width: 200px;
+                height: 200px;
+
+                top: 20px;
+                left: 20px;
+
+                z-index: 5;
+            }
+
+        }
+        /* ===== PRINT BASED STYLES ===== */
         @media print {
+
+            #container {
+
+            }
 
             #camera_module {
                 position: fixed;
@@ -110,7 +126,17 @@
             }
 
             #canvas {
+                position: fixed;
+                width: 0px;
+                height: 0px;
+            }
 
+            #startbutton {
+                position: fixed;
+                width: 0px;
+                height: 0px;
+
+                visibility: hidden;
             }
         }
 
@@ -139,6 +165,9 @@
     <!--invisible canvas-->
     <canvas id="canvas"></canvas>
 
+    <!--PRINT-visible logo-->
+    <div id="print_logo"></div>
+
 
 
 
@@ -153,9 +182,35 @@
 
     //event listeners
     button.addEventListener('click', function(event){
-
         this.parentNode.removeChild(this);
     });
+
+    //main loop
+    document.addEventListener('DOMContentLoaded', function(event){
+        console.log(event);
+
+        findWindowHeight();
+        adjustContainerHeight();
+
+        window.addEventListener('resize', function(event){
+            adjustContainerHeight();
+        });
+
+    });
+
+    //===== FUNCTIONS ======
+
+    //find window height
+    function findWindowHeight(){
+        var h = window.innerHeight;
+        console.log(h);
+    }
+
+    //adjust container height
+    function adjustContainerHeight(){
+        var backgroundContainer = document.getElementById('container');
+        backgroundContainer.style.height = window.innerHeight.toString() + 'px';
+    }
 
 </script>
 
