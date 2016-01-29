@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas video play</title>
+    <link rel="shortcut icon" href="favicon.ico?v=2">
+
+    <!-- JS LIBRARIES -->
+    <script src="./lib/tracking.js"></script>
+    <script src="./js/windowAdjust.js"></script>
+    <script src="./js/initCamera.js"></script>
+
+    <style>
+
+        /* ===== SCREEN STYLES ===== */
+        @media screen {
+            * {
+                padding: 0px;
+                margin: 0px;
+                font-size: 16px;
+            }
+
+            #container {
+                background: rgba(220,220,220, 1.0);
+            }
+
+
+        }
+        /* ===== PRINT BASED STYLES ===== */
+        @media print {
+
+
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<!-- MAIN CONTAINER -->
+<div id="container">
+    <!--camera module-->
+    <div id="camera_module">
+        <video id="video" preload autoplay loop muted>Video Stream Not Available</video>
+        <button id="startbutton">start camera</button>
+    </div>
+
+    <!--output screens-->
+    <div id="output_container">
+        <div class="output" id="photo_01">
+            <video id="tiny_video" preload autoplay loop muted> git ray day!</video>
+        </div>
+    </div>
+
+    <!--movie window-->
+    <video id="makeout" src="./videos/projection_test_v001_sm.mp4" width="720" muted="true" poster="./img/video-poster.png" ></video>
+    <button id="reset">reset video</button>
+
+    <!--invisible canvas-->
+    <canvas id="canvas"></canvas>
+
+</div> <!-- MAIN CONTAINER - END -->
+
+
+<!-- CODE -->
+<script>
+    //global variables
+    var button = document.getElementById('startbutton');
+    var resetButton = document.getElementById('reset');
+
+    var makeout_video = document.getElementById('makeout');
+
+
+    //event listeners
+    button.addEventListener('click', function(event){
+        initializeCamera();
+        this.parentNode.removeChild(this);
+    });
+
+    // ===== makeout video section ======
+
+    makeout_video.addEventListener('canplaythrough', function(event){
+        this.play();
+    });
+
+    makeout_video.addEventListener('timeupdate', function(event){
+        console.log(this.currentTime);
+    });
+
+    makeout_video.addEventListener('click', function(event){
+        if(this.paused == true) {
+            this.play();
+        } else {
+            this.pause();
+        }
+    });
+
+    resetButton.addEventListener('click', function(event){
+        makeout_video.currentTime = 0;
+    });
+
+    // ===== makeout video section - END ======
+
+
+
+
+
+    //main loop
+    document.addEventListener('DOMContentLoaded', function(event){
+        console.log(event);
+
+        findWindowHeight();
+        adjustContainerHeight('container');
+
+        window.addEventListener('resize', function(event){
+            adjustContainerHeight('container');
+        });
+
+    });
+
+
+
+</script>
+
+</body>
+</html>

@@ -195,11 +195,16 @@
         backgroundContainer.style.height = window.innerHeight.toString() + 'px';
     }
 
-    //init camera
+    /**
+     * Initialize the Camera
+     */
     function initializeCamera() {
+
+        // set div width and height
         var width = 1280;
         var height = 0;
 
+        // init variables (should really be in the global scope...)
         var streaming = false;
         var video = null;
         var tiny_video = null;
@@ -207,6 +212,7 @@
         var photo = null;
         var startbutton = null;
 
+        // define variables
         video = document.getElementById('video');
         tiny_video = document.getElementById('tiny_video');
         canvas = document.getElementById('canvas');
@@ -215,6 +221,7 @@
 
         //get media stream
         navigator.getMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia );
+
 
         navigator.getMedia({video: true, audio: false}, function(stream){
             if(navigator.mozGetUserMedia) {
