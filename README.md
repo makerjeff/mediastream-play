@@ -9,4 +9,8 @@ Starting a new type of 'experiment', using bare minimum modules possible. Where 
 
 ###See Also:
 
-[URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)
+1. [URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)
+
+2. [HTML5 Video Player W3.ORG Reference] (https://www.w3.org/2010/05/video/mediaevents.html)
+
+3. [NameSpacing](https://addyosmani.com/blog/essential-js-namespacing/)

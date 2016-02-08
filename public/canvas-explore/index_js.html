@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>flexbox play</title>
+    <link rel="shortcut icon" href="../favicon.ico?v=2">
+    <link rel="stylesheet" href="./css/reset.css">
+
+    <!-- JS LIBRARIES -->
+    <script src="./lib/tracking.js"></script>
+    <script src="./js/windowAdjust.js"></script>
+    <script src="./js/initCamera.js"></script>
+
+    <style>
+
+        /* ===== SCREEN STYLES ===== */
+        @media screen {
+            * {
+                padding: 0px;
+                margin: 0px;
+                font-size: 16px;
+
+                box-sizing: border-box;
+            }
+
+            /*===== button =====*/
+            button {
+
+                font-size: 0.75em;
+                position: relative;
+                padding: 10px;
+                background-color: rgba(240,240,240,1.0);
+                border: 1px dotted rgba(50,50,50, 1.0);
+                border-radius: 15px;
+                outline: none;
+                box-shadow: 1px 2px 2px rgba(50,50,50,0.25);
+
+                transition: background-color 0.25s, color 0.25s;
+
+            }
+
+            button:hover {
+                background-color: rgba(0,0,0,1.0);
+                color: rgba(240,240,240, 1.0);
+            }
+
+            button:active {
+                box-shadow: 0px 0px 0px rgba(0,0,0,1.0);
+                top: 1px;
+                left: 1px;
+            }
+            /*===== button-END =====*/
+
+            #container {
+                display: flex;
+                flex-direction: column;
+                background: rgba(220,220,220, 1.0);
+
+                justify-content: center;
+                align-items: center;
+            }
+
+            #inner_container {
+                /*offset the top nav space*/
+                padding: 75px 0px 0px 0px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #video_container {
+                overflow-y: hidden;
+                overflow-x: hidden;
+
+            }
+
+            .dummyDivs {
+                position: relative;
+
+                background: rgba(240,240,240, 1.0);
+                border: 1px solid rgba(50,50,50,1.0);
+                border-top: 0px;
+
+                width: 800px;
+                height: 400px;
+            }
+
+            #top_nav {
+                display: flex;
+                position: fixed;
+
+                padding: 0 50px 0 0;
+
+                width: 100%;
+                height: 75px;
+
+                background: rgba(255,255,255,1.0);
+
+                box-shadow: 1px 1px 1px rgba(50,50,50, 0.2);
+
+                z-index: 10;
+
+                justify-content: flex-end;
+                align-items: center;
+
+            }
+
+            #logo {
+
+                position: fixed;
+
+                top: 7px;
+                left: 25px;
+
+                background-image: url('./img/180Logo_outline.svg');
+                background-repeat: no-repeat;
+                background-position: 0px 0px;
+
+                background-size: 60px 60px;
+
+                width: 60px;
+                height: 60px;
+
+                z-index: 20;
+
+            }
+
+            /*TODO :organize the CSShit */
+
+            /*SOCIAL ICONS*/
+            .social_img {
+                /*sprite dimensions*/
+                width: 33px;
+                height: 33px;
+
+                display: block;
+                position: relative;
+                background: url('./img/180_social.svg') no-repeat 0px 0px;
+            }
+
+            #facebook_icon {
+                /*background offset*/
+                background-position: -2px 0px;
+
+                /*position icon*/
+                /*top: 0px;*/
+                /*left: 0px;*/
+            }
+
+            #twitter_icon {
+                /*background offset*/
+                background-position: -35px 0px;
+
+                /*position icon*/
+                /*top: 0px;*/
+                /*left: 40px;*/
+            }
+
+            #gplus_icon {
+                /*background offset*/
+                background-position: -68px 0px;
+
+                /*position icon*/
+                /*top: 0px;*/
+                /*left: 80px;*/
+            }
+
+            #youtube_icon {
+                /*background offset*/
+                background-position: -100px 0px;
+
+                /*position icon*/
+                /*top: 0px;*/
+                /*left: 120px;*/
+            }
+
+            #github_icon {
+                /*background offset*/
+                background-position: -133px 0px;
+
+                /*position icon*/
+                /*top: 0px;*/
+                /*left: 160px;*/
+            }
+
+            #instagram_icon {
+                /*background offset*/
+                background-position: -167px 0px;
+
+                /*position icon*/
+                /*top: 0px;*/
+                /*left: 200px;*/
+            }
+
+            #vimeo_icon {
+                /*background offset*/
+                background-position: -200px 0px;
+
+                /*position icon*/
+                /*top: 0px;*/
+                /*left: 240px;*/
+            }
+
+            #social_icons {
+                display: flex;
+                position: absolute;
+                top: 20px;
+                right: 100px;
+
+                width: 200px;
+
+                justify-content: space-between;
+
+            }
+
+
+
+        }
+        /* ===== PRINT BASED STYLES ===== */
+        @media print {
+
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <nav id="top_nav">
+        <div id="logo"></div>
+
+        <div id="social_icons">
+            <!--<div id="facebook_icon" class="social_img"></div>-->
+            <a href="http://www.twitter.com/180LA/" target="_blank" alt="180LA's twitter page"
+            ><div id="twitter_icon" class="social_img"></div></a>
+            <a href="https://plus.google.com/100300888899634467432/posts" target="_blank"><div id="gplus_icon"
+                                                                                               class="social_img"></div></a>
+            <!--<a href="#" target="_blank" alt="180LA's youtube page"><div id="youtube_icon" class="social_img"></div></a>-->
+            <!--<div id="github_icon" class="social_img"></div>-->
+            <a href="http://www.instagram.com/180LA/" target="_blank" alt="180LA's instagram page"><div id="instagram_icon"
+                                                                         class="social_img"></div></a>
+            <!--<div id="vimeo_icon" class="social_img"></div>-->
+        </div>
+
+    </nav>
+
+
+    <div id="inner_container">
+
+        <!--VIDEO CONTAINER-->
+        <div id="video_container">
+            <!--VIDEO-->
+            <video id="sti_video" src="./videos/sti_trailer_hd.mp4" width="1080"></video>
+        </div>
+        <!-- VIDEO CONTAINER END -->
+
+        <div id="dummyDiv_01" class="dummyDivs"></div>
+        <div id="dummyDiv_02" class="dummyDivs"></div>
+        <div id="dummyDiv_03" class="dummyDivs"></div>
+        <div id="dummyDiv_04" class="dummyDivs"></div>
+    </div>
+
+
+
+</div>
+
+
+<!-- CODE -->
+<script>
+
+    //STATES
+    var userState = {
+        SMALL: 0,
+        MEDIUM: 1,
+        LARGE: 2
+    }
+
+    //initialize video
+    var video_div = document.getElementsByTagName('video')[0];
+    var video_container = document.getElementById('video_container');
+
+    console.log(video_div.src);
+
+
+    video_div.addEventListener('canplaythrough', function(event){
+        this.play();
+    });
+
+    video_div.addEventListener('timeupdate', function(event){
+        console.log(this.currentTime);
+    });
+
+    //click to start and stop
+    video_div.addEventListener('click', function(event){
+        if(this.paused == true) {
+            this.play();
+        } else {
+            this.pause();
+        }
+    });
+
+    //when user switches to another tab or opens a link
+    window.addEventListener('blur', function(event){
+        document.title = 'come back!';
+        video_div.pause();
+    });
+
+    //when user switches back to the tab
+    window.addEventListener('focus', function(event){
+        document.title = '180LA CST';
+
+        if(video_div.paused === true) {
+            video_div.play();
+        }
+
+    });
+
+
+
+
+    //==== MAIN LOOP ====
+    document.addEventListener('DOMContentLoaded', function(event){
+        console.log(event);
+
+        JeffApp.adjustVideo('sti_video');
+        video_container.height = window.innerHeight;
+
+    });
+
+
+    //JeffApps' namespaced functions
+    var JeffApp = {
+        //this == JeffApp;
+        id: 0,
+        /**
+         * Adds the value to 'id'
+         * @param value Amount to add.
+         */
+        add_value: function(value){
+            this.id = this.id + value;
+            return console.log(this.id);
+        },
+
+
+        /**
+         * Subtracts the value to 'id'
+         * @param value Amount to Subtract.
+         */
+        sub_value: function(value){
+            this.id = this.id - value;
+            return console.log(this.id);
+        },
+
+        /**
+         * Creates a random number based on the 'max' amount.
+         * @param max Maximum number in random.
+         */
+        randomize: function(max) {
+            this.value = Math.ceil(Math.random() * max);
+            return console.log(this.value);
+        }
+    };
+
+    /**
+     * Creates a random number based on the 'max' amount.
+     * @param max Maximum number in random.
+     */
+    JeffApp.randomize2 = function(max) {
+        this.value2 = Math.ceil(Math.random() * max);
+        return console.log(this.value2);
+    }
+
+    JeffApp.adjustVideo = function(target){
+        var div = document.getElementById(target);
+
+        div.width = window.innerWidth;
+    };
+
+
+    // ===== HELPER FUNCTIONS =====
+
+    function createJeffAppButtons () {
+
+        var nav = document.getElementById('top_nav');
+
+        //create buttons
+        var addButton = document.createElement('button');
+        var subButton = document.createElement('button');
+        var randButton1 = document.createElement('button');
+        var randButton2 = document.createElement('button');
+
+        //create button text
+        var addButtonText = document.createTextNode('add');
+        var subButtonText = document.createTextNode('sub');
+        var randButton1Text = document.createTextNode('rand1');
+        var randButton2Text = document.createTextNode('rand2');
+
+        //append button Text
+        addButton.appendChild(addButtonText);
+        subButton.appendChild(subButtonText);
+        randButton1.appendChild(randButton1Text);
+        randButton2.appendChild(randButton2Text);
+
+        //append buttons
+        nav.appendChild(addButton);
+        nav.appendChild(subButton);
+        nav.appendChild(randButton1);
+        nav.appendChild(randButton2);
+
+        //append button functions
+        addButton.addEventListener('click', function(event){JeffApp.add_value(10);});
+        subButton.addEventListener('click', function(event){JeffApp.sub_value(10);});
+        randButton1.addEventListener('click', function(event){JeffApp.randomize(100);});
+        randButton2.addEventListener('click', function(event){JeffApp.randomize2(200);});
+
+
+    }
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
